@@ -8,10 +8,10 @@
  */
 
 #include <ctype.h>
-#include <string.h>
-#include <stdio.h>
+
 
 #include "auto_nombre.h"
+
 
 
 
@@ -26,7 +26,7 @@
  */
 int erreur_caractere ( char *ligne , int i , int c) {
 
-    printf("erreur au %de caractere %c de la chaine %s\n",i,c,ligne);
+    printf("erreur au %d caractere %c de la chaine %s\n",i,c,ligne);
     return -1;
 }
 
@@ -65,29 +65,95 @@ char* traduit_etat(int S) {
 
 int classifie(char* ligne) {
     int S = INIT;
-    int i=0;
+    uint32_t i=0;
 
-    for (i=0; i<strlen(ligne); i++) {
+    for (i=0; i<strlen(ligne); i++) 
+	{
         char c=ligne[i];
         switch (S) {
+
+	case COMMENT : /* si premier caractère est, # alors commentaire, peut importe ce qu'il y a dedans */
+	        if ( isspace(c) ) {
+                return S; }
+		else return erreur_caractere ( ligne , i , c );
+            break ;
+		
+	case NL : 
+		if ( isspace(c) ) {
+                return S; }
+		else return erreur_caractere ( ligne , i , c );
+            break ;		
+
+	case SYMBOLE : 
+		if (isalpha(c)) S=SYMBOLE;
+		else if ( isspace(c) ) {
+                return S; }
+		else return erreur_caractere ( ligne , i , c );
+            break ;
+		
+	case REGISTRE :
+		if (isdigit(c)) S=REGISTRE;
+		else if ( isspace(c) ) {
+                return S; }
+		else return erreur_caractere ( ligne , i , c );
+            break ;		
+		
+	case VIRGULE :
+		if ( isspace(c) ) {
+                return S; }
+		else return erreur_caractere ( ligne , i , c );
+            break ;		
+
+	case DEUX_PTS :
+		
+		if ( isspace(c) ) {
+                return S; }
+		else return erreur_caractere ( ligne , i , c );
+            break ;		
+		
+	case PARENTHESE_OUVRANTE :
+		 if ( isspace(c) ) {
+                return S; }
+		else return erreur_caractere ( ligne , i , c );
+            break ;
+
+	case PARENTHESE_FERMANTE:
+		if ( isspace(c) ) {
+                return S; }
+		else return erreur_caractere ( ligne , i , c );
+            break ;
+
+
         case INIT :
-            if (isdigit(c)) {            /* si c est un chiffre */
+		
+            if (isdigit(c)) {         /* si c est un chiffre */
                 S = ( c== '0' ) ? PRE_HEXA : DECIMAL ;
                 if(S==PRE_HEXA && (i== strlen(ligne)-1 || isspace(ligne[i+1]))) {
-                    S = DECIMAL ;/* cas ou le nombre est 0*/
+                      S = DECIMAL ;/* cas ou le nombre est 0*/
                 }
-            }
-            else if ( isspace(c)) S=INIT ;
+            }	
+		else if ( isspace(c)) S=INIT ;
+		else if (c == '#')  S=COMMENT ;
+		else if (c == '\n') S=NL ;
+		else if (c == ':') S=DEUX_PTS;
+		else if (c == ',') S=VIRGULE ;
+		else if (c == '$') S=REGISTRE;
+		else if (isalpha(c)) S=SYMBOLE;
+		else if (c == '(') S=PARENTHESE_OUVRANTE;
+		else if (c == ')') S=PARENTHESE_FERMANTE ;
+	    
             else return erreur_caractere (ligne , i , c );
             break ;
-        case PRE_HEXA: /* repérage du préfixe de l hexa */
+ 
+       case PRE_HEXA: /* repérage du préfixe de l hexa */
             if ( c == 'x' || c == 'X' ) S=HEXA ;
             else if (isdigit(c) && c < '8' ) /* c est un octal */
                 S=OCTAL ;
 
             else return erreur_caractere (ligne, i , c );
             break ;
-        case DEBUT_HEXA : /* il faut au moins un chiffre après x */
+      
+  case DEBUT_HEXA : /* il faut au moins un chiffre après x */
             if (isxdigit(c)) S=HEXA ;
             else return erreur_caractere (ligne, i , c );
             break ;
@@ -98,8 +164,10 @@ int classifie(char* ligne) {
             }
             else return erreur_caractere ( ligne , i , c );
             break ;
-        case DECIMAL : /* tant que c est un chiffre */
-            if (isdigit(c))      S=DECIMAL ;
+
+       case DECIMAL : /* tant que c est un chiffre */
+            
+		if (isdigit(c))      S=DECIMAL ;
             else if ( isspace(c) ) {
                 return S;
             }
@@ -118,3 +186,20 @@ int classifie(char* ligne) {
     }
     return -1;
 }
+
+/*
+tout marche sauf \n 
+int main ()
+{ int S;
+S=classifie("\n ") ;
+printf ("S = %i \n" , S);
+S=classifie(": ") ;
+printf ("S = %i \n" , S);
+S=classifie(", ") ;
+printf ("S = %i \n" , S);
+S=classifie("add ") ;
+printf ("S = %i \n" , S);
+S=classifie("$ ") ;
+printf ("S = %i \n" , S);
+return 0;
+}*/

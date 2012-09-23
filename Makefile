@@ -9,12 +9,12 @@ INCDIR=-I include
 CFLAGS=-Wall -ansi -g -pedantic-errors $(INCDIR)
 LFLAGS=
 
-OBJ= test_auto_nombre.o auto_nombre.o
+OBJ= test_auto_nombre.o auto_nombre.o etape1.o
 
 GARBAGE=*~ include/*~
 
 ARCHNAME=`date +%d-%m-%y-%H-%M`-`whoami`.tgz
-ARCHCONTENT=*c *file include res doc *.txt
+ARCHCONTENT=*.c *file include res doc *.txt
 
 TARGET=test_auto_nombre
 
