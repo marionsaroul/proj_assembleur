@@ -22,7 +22,7 @@
 
 
 
-/**
+/*
  * @param ligne chaîne de caractères à analyser
  * @param i index du caractère en faute
  * @param c code ascii du caractère en faute
@@ -37,7 +37,7 @@ int erreur_caractere ( char *ligne , int i , int c) {
 }
 
 
-/**
+/*
  * @param S entier codant l'état de l'automate
  * @return une chaîne de caractères représentant l'état S
  * @brief traduit un état donné sous forme de valeur numérique en chaîne de caractères
@@ -241,7 +241,7 @@ int classifie(char* ligne) {
 }
 
 
-char * canoniser (char *ligne)
+char* canoniser (char *ligne)
 
 { 
 char s[1000];

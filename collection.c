@@ -2,7 +2,6 @@
 
 
 
-
 int collection (LISTE_LEXEME L)
 {
 

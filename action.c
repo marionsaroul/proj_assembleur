@@ -1,5 +1,3 @@
-
-
 #include "action.h"
 
 int erreur_caractere2 ( char *ligne) 
@@ -134,7 +132,7 @@ INSTRUCTION action6(LISTE_LEXEME L2,char* Tab_mot)
 /*pb car ne rentre pas dans symbole */
 
 /* main pour tester ACTION4 */
-/*
+
 int main(void)
 {
 
@@ -152,9 +150,9 @@ for(i=1;i<6;i++)
 
 	{ 	printf("%s",Tab_mot[i]);}
 //action4(Tab_mot,Dico,Dico.size);
-*/
-//return 0;
-//}
+
+return 0;
+}
 
 // main pour tester ACTION1
 
