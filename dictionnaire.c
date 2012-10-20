@@ -98,11 +98,11 @@ tab = lecture_data ();
 return 0;
 }
 */
-
+/*
 int main (void)
 { DICO_DIR* tab = calloc(100,sizeof(DICO_INST));
 //printf("ok ok ok");
 lecture_dir(tab);
 return 0;
 }
-
+*/

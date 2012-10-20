@@ -24,7 +24,7 @@ int main ()
         char* ligne2;
 			
 		while (fgets(ligne,511,Fichier) != NULL){  //fgets renvoie null quand il n'a plus rien à lire 
-			if(strcmp(ligne,nl)!= NULL) {   // permet de ne pas prendre en compte le saut de ligne dans le code assembleur
+			if(strcmp(ligne,nl) != 0) {   // permet de ne pas prendre en compte le saut de ligne dans le code assembleur
 
 				/*printf("La ligne est : %s \n", ligne );*/
 
@@ -65,3 +65,4 @@ int main ()
 	
 	return 0;
 }
+

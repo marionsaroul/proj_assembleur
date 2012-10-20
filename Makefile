@@ -9,7 +9,7 @@ INCDIR=-I include
 CFLAGS=-Wall -g -pedantic $(INCDIR)
 LFLAGS=
 
-OBJ=  auto_nombre.o analyse_lex_syn.o liste_chainee.o 
+OBJ=  auto_nombre.o  liste_chainee.o collection.o action.o dictionnaire.o
 
 
 

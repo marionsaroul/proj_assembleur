@@ -1,100 +1,35 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
-
 #include "collection.h"
-#include "dictionnaire.h"
-#include "action.h"
-
-int erreur_caractere ( char *ligne , int i ) {
-
-    printf("erreur au %d caractere de la chaine %s\n",i,ligne);
-    return -1;
-}
-
-
-LISTE_LEXEME creer_liste(void)
-	{return NULL ; }
 
 
 
-LISTE_LEXEME enfiler(char* etat, char* mot,int S, LISTE_LEXEME L)
-	{
-	LISTE_LEXEME p=calloc(1,sizeof(*p));
-	  (p->etat)=etat;
-	  (p->mot)=mot;
-	  (p->num_etat)=S;
-		if (L==NULL)
-			 p->suiv=p; /* quand elle est vide on boucle sur elle m*/
-	 	else
-	 	{
-	 	p->suiv=L->suiv;
-	 	L->suiv=p;
-		}
-	return p;
-}
-
-LISTE_LEXEME defiler (LISTE_LEXEME* pL)
-	{LISTE_LEXEME p;
-	p= (*pL)->suiv;
-	if (*pL == (*pL)->suiv) *pL=NULL;
-	else (*pL)->suiv =p->suiv;
-	return p;
-/*
-p->mot=L->mot;
-p->num_etat=L->num_etat;
-p->etat=L->etat;
-free(L);
-return p;*/
-	}
-
-	int est_vide(LISTE_LEXEME L)
-	{return !L;
-	}
-
-	void visualiser( LISTE_LEXEME L)
-	{LISTE_LEXEME Liste;
-
-	  for(Liste=L->suiv;Liste!=L;Liste=Liste->suiv)
-		  {  printf("[%s ] : %s \n",Liste->etat,Liste->mot);
-}
-     printf("[%s ] : %s \n",L->etat,L->mot);
-}
-
-
-//LISTE2 collection(LISTE_LEXEME L) ;
 
 int collection (LISTE_LEXEME L)
 {
 
 
-LISTE_LEXEME lexeme,lexeme2;
+LISTE_LEXEME lexeme;
 
 /*LISTE2 l2;*/
 int num_ligne=0;
 /*int etat_data ;*/
-/*DATA d ;*/
+/*DATA_DIRECTIVE d ;*/
 /*INSTRUCTION I1,I2,I3;*/
 /*SYMBOLE S;*/
 char* nl="\n";
 /*char* mot="add";*/
 char* Tab_mot[1000];
-int i,x;
-DATA data;
-SYMBOLE symbole;
+int i;
+int isdata=0;
+
+DATA_DIRECTIVE data;
+ETIQUETTE symbole;
 INSTRUCTION instruction ;
 
-DICO_INST* dico_inst;
-dico_inst = lecture_inst ();
-
-
-/* a tester
-DICO_DATA* dico_data;
-dico_data= lecture_data ();
-*/
-
-/* enum { INIT 1 , PRE_HEXA 2, DEBUT_HEXA 3, HEXA 4, DECIMAL 5, OCTAL 6, NL 7,SYMBOLE 8, DEUX_PTS 9, VIRGULE 10, DEBUT_REGISTRE 11, REGISTRE 12, PARENTHESE_OUVRANTE 13, PARENTHESE_FERMANTE 14, COMMENT   15, DEBUT_DIRECTIVE   16, DIRECTIVE    17, PLUS 18, MOINS   19} ;*/
+// initialisation des dictionnaires
+DICO_INST* dico_inst = 0;
+lecture_inst(dico_inst);
+DICO_DIR* dico_dir = 0;
+lecture_dir(dico_dir);
 
 
 	
@@ -102,12 +37,13 @@ dico_data= lecture_data ();
 	while(! est_vide(L))   /* est_vide à faire*/
 	{num_ligne =num_ligne +1 ;
 	i=0;
-	int F = INIT;
+	int F = INIT2;
 		char* mot="ok"; /* permet de passer le test du premier while*/
 
 		while(strcmp(mot,nl)!= 0)  /* tant qu'on est pas à la fin de ligne */
 			{  
-  			i=i+1;
+			// Tab_mot commencera à l'indice 1
+  			i++; 
 			lexeme=defiler(&L);
 			mot=lexeme->mot;
 			/*visualiser(L);*/
@@ -118,7 +54,7 @@ dico_data= lecture_data ();
 			
       					  switch (F) {	
 
-						case INIT: 
+						case INIT2: 
 							/* test si symbole */
 							 if (lexeme->num_etat==8)
 							 {Tab_mot[i]=strdup(mot);
@@ -128,18 +64,18 @@ dico_data= lecture_data ();
 							 /*test si directive*/
 							 else if (lexeme->num_etat==17)
 							 {Tab_mot[i]=strdup(mot);
-							 F=DEBUT_DIRECTIVE;}
+							 F=DEBUT_DIRECTIVE2;}
 							 
 							 /*test si fin de ligne ou commentaire*/
 							 else if(lexeme->num_etat==7 || lexeme->num_etat==15 )
 							 {break;}
 							 
 							 else {
-							 	return erreur_caractere ( lexeme->mot );
+							 	return erreur_caractere2 ( lexeme->mot );
 							}
 						break;
 						
-						case DEBUT_DIRECTIVE :
+						case DEBUT_DIRECTIVE2 :
 						
 							/*test si symbole */
 						 	if (lexeme->num_etat==8)
@@ -150,8 +86,9 @@ dico_data= lecture_data ();
 							 else if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
 							 {Tab_mot[i]=strdup(mot);
 							F=DIR_2;}
+
 						
-							else return erreur_caractere ( lexeme->mot );
+							else return erreur_caractere2 ( lexeme->mot );
 						break;
 						
 						case DIR_1 :
@@ -160,21 +97,21 @@ dico_data= lecture_data ();
 							 if (strcmp(mot,nl)==0) 
 							 
 							{printf("action1");
-							x=action1(Tab_mot,x);
+							action1(Tab_mot,isdata);
 							}
 								
-							else return erreur_caractere ( lexeme->mot );
+							else return erreur_caractere2 ( lexeme->mot );
 							
 						break;
 						
 						case DIR_2 :
 						
 							 if (strcmp(mot,nl)==0) 
-							{data=action2(Tab_mot,x,dico_data.size,dico_data );
+							{data=action2(Tab_mot,isdata,dico_dir );
 							/*L2=ajout(d,L);*/
 							 printf("action2");
 							 }	
-							else return erreur_caractere ( lexeme->mot );
+							else return erreur_caractere2 ( lexeme->mot );
 						break;
 						
 						case DEBUT_SYMBOLE : 
@@ -182,7 +119,7 @@ dico_data= lecture_data ();
 						
 							if (lexeme->num_etat==9)
 							 {Tab_mot[i]=strdup(mot);
-							 F=ETIQUETTE ;}
+							 F=ETIQUETTE2 ;}
 							 
 							 /* test si registre ou hexa ou octal ou decimal (ou étiquette ?) */ 
 							 else  if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
@@ -191,7 +128,7 @@ dico_data= lecture_data ();
 						
 						break;
 						
-          					case ETIQUETTE :
+          					case ETIQUETTE2 :
           						/*test si symbole */
           						if (lexeme->num_etat==8)
 							 {Tab_mot[i]=strdup(mot);
@@ -199,7 +136,7 @@ dico_data= lecture_data ();
 							 
 							 /*test fin de ligne*/
 							 else if (strcmp(mot,nl)==0) 
-							 { symbole=action3(Tab_mot,num_ligne,x);
+							 { symbole=action3(Tab_mot,num_ligne,isdata);
 							 printf("action3"); } /*action3 à faire*/
 							 
 						break;
@@ -207,7 +144,7 @@ dico_data= lecture_data ();
 						case INST_1 :
 							/*test fin de ligne après 1er opérande */
 							 if (strcmp(mot,nl)==0) 
-							 {instruction=action4(Tab_mot,dico_inst,dico_inst.size);
+							 {instruction=action4(Tab_mot,dico_inst,isdata,num_ligne);
 							 printf("action4"); }
 							 
 							 /*sinon test virgule*/
@@ -220,7 +157,7 @@ dico_data= lecture_data ();
 							 {Tab_mot[i]=strdup(mot);
 							F=DEBUT_SYMBOLE; }
 							 
-							 else return erreur_caractere ( lexeme->mot );
+							 else return erreur_caractere2 ( lexeme->mot );
 						 
 						 break;
 						 
@@ -229,7 +166,7 @@ dico_data= lecture_data ();
 							 if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
 								 {Tab_mot[i]=strdup(mot);
 								F=INST_3;}
-							 else return erreur_caractere ( lexeme->mot );
+							 else return erreur_caractere2 ( lexeme->mot );
 						
 						
 						break;
@@ -251,7 +188,7 @@ dico_data= lecture_data ();
 							 {Tab_mot[i]=strdup(mot);
 							F=DEBUT_SYMBOLE; }
 							 
-							 else return erreur_caractere ( lexeme->mot );
+							 else return erreur_caractere2 ( lexeme->mot );
 						break;
 						
 						
@@ -260,7 +197,7 @@ dico_data= lecture_data ();
 							 if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
 								 {Tab_mot[i]=strdup(mot);
 								F=INST_5;}
-							 else return erreur_caractere ( lexeme->mot );
+							 else return erreur_caractere2 ( lexeme->mot );
 						
 						break;
 						
@@ -276,7 +213,7 @@ dico_data= lecture_data ();
 							F=DEBUT_SYMBOLE;
 								 }
 							 
-							 else return erreur_caractere ( lexeme->mot );
+							 else return erreur_caractere2 ( lexeme->mot );
 							
 							
 						break; 
@@ -284,6 +221,8 @@ dico_data= lecture_data ();
 				}
 							 
 	}
+	
+	return -1 ;
 
 }
 	
