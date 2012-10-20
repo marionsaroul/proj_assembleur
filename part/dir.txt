@@ -1,0 +1,7 @@
+6 
+.data 
+.text 
+.word 
+.byte 
+.space 
+.set noreorder 

@@ -320,7 +320,7 @@ int coupe_ligne(char * ligne,char* mot[1000] )
 	
 	char* save=strdup(ligne);
 	char* psave=strstr(save,"#");
-	p=strtok(ligne," ");
+	p=strtok (ligne," ");
 
 	
 	

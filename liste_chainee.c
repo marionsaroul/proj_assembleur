@@ -7,45 +7,50 @@
 
 
 
-// Définition des fonctions de manipulation des listes
+/*Définition des fonctions de manipulation des listes*/
+
 LISTE_LEXEME creer_liste(void)
 {return NULL ; }
 
-void Ajout_Tete(int type, char* mot, LISTE_LEXEME *L)
+
+
+LISTE_LEXEME enfiler(char* etat, char* mot,int S, LISTE_LEXEME L)
 {
-	LISTE_LEXEME* p=L;
-	L=(LISTE_LEXEME*)malloc(sizeof(LISTE_LEXEME));
-	(L->suiv)=p;
-	(L->type)=type;
-	(L->mot)=mot;
+LISTE_LEXEME p=calloc(1,sizeof(*p));
+  (p->etat)=etat;
+  (p->mot)=mot;
+  (p->num_etat)=S;
+	if (L==NULL)
+		 p->suiv=p; /* quand elle est vide on boucle sur elle m*/
+	 else
+	 {
+	 p->suiv=L->suiv;
+	 L->suiv=p;
 	}
-                                                                              
-int est_vide(LISTE_LEXEME *L)
-{ 
-	if ((L==NULL)) 
-	{ return 1;}
-	else
-	{ return 0;}
+return p;
 }
 
-void Visualiser_Liste( LISTE_LEXEME *L)
+
+                                                                              
+int est_vide(LISTE_LEXEME L)
+{ 
+	return !L;
+}
+
+void Visualiser_Liste( LISTE_LEXEME L)
 {
-	LISTE_LEXEME *p;
-	p=L;
+	LISTE_LEXEME p=L;
 	while (!est_vide(p)) {
-		if (p == NULL) printf("faux\n");
-		printf("%i,%s, \n",p->type,p->mot);
 		p=p->suiv;
 	}
 }
 
-main ()
-{
-LISTE_LEXEME* L;
+void visualiser( LISTE_LEXEME L)
+{LISTE_LEXEME Liste;
 
-L=creer_liste(void) ;
-
-Ajout_Tete (HEXA, "commentaire", L) ;
-Visualiser_Liste(L);
-} 
+  for(Liste=L->suiv;Liste!=L;Liste=Liste->suiv)
+  {  printf("[%s ] : %s \n",Liste->etat,Liste->mot);
+}
+     printf("[%s ] : %s \n",L->etat,L->mot);
+}
 

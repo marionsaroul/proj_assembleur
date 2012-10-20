@@ -1,0 +1,20 @@
+
+
+
+etape1 :
+add $6,5
+add 0x0A ,013 
+move ($6), $5
+#fin du programme 
+.directive
+
+
+
+etape1 avec test d'erreur : 
+
+add $6,$L ,$ 5
+add 0x 0A ,013 
+mov e ($6), ($5)
+#fin du programme
+. directive
+

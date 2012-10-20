@@ -6,17 +6,21 @@ TAR=`which tar` --exclude=.svn -czvf
 
 INCDIR=-I include
 
-CFLAGS=-Wall -ansi -g -pedantic-errors $(INCDIR)
+CFLAGS=-Wall -g -pedantic $(INCDIR)
 LFLAGS=
 
-OBJ= test_auto_nombre.o auto_nombre.o etape1.o
+OBJ=  auto_nombre.o analyse_lex_syn.o liste_chainee.o 
+
+
+
 
 GARBAGE=*~ include/*~
 
 ARCHNAME=`date +%d-%m-%y-%H-%M`-`whoami`.tgz
 ARCHCONTENT=*.c *file include res doc *.txt
 
-TARGET=test_auto_nombre
+TARGET=analyse
+
 
 all : $(TARGET)
 
@@ -35,3 +39,21 @@ documentation :
 
 archive : 
 	$(TAR) ../$(ARCHNAME) $(ARCHCONTENT) && mv ../$(ARCHNAME) .
+
+test_file :
+	gcc -std=c99 -Wall -Wextra -o test_file  liste_chainee.c test_file.c
+	./test_file
+	
+test_classifie :
+	gcc -std=c99 -Wall -Wextra -o test_classifie auto_nombre.c test_classifie.c
+	./test_classifie
+	 
+test_coupe_ligne :
+	gcc -std=c99 -Wall -Wextra -o test_coupe_ligne auto_nombre.c test_coupe_ligne.c
+	./test_coupe_ligne
+
+test_canoniser :
+	gcc -std=c99 -Wall -Wextra -o test_canoniser auto_nombre.c test_canoniser.c
+	./test_canoniser
+	 
+	 

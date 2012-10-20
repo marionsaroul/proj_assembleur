@@ -7,14 +7,12 @@
  *
  */
 
-#ifndef _AUTO_NOMBRE_H_
-#define _AUTO_NOMBRE_H_
-
-/* definition des etats */
-enum { INIT , PRE_HEXA , DEBUT_HEXA , HEXA , DECIMAL , OCTAL } ;
+#include "analyse_lex_syn.h"
 
 int erreur_caractere ( char * , int  , int );
 int classifie(char* );
 char* traduit_etat(int );
+int coupe_ligne(char *, char** );
+char * canoniser (char *);
 
-#endif /* _AUTO_NOMBRE_H_ */
+
