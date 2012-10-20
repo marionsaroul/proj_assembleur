@@ -23,17 +23,17 @@ fichier=fopen("instructions.txt","r");
 //DICO_INST tab[pnb];
 char tmp[512];
 
-	tab[0].size=pnb ;
+	tab[0].size=pnb ; 	
 	for (i=0; i<pnb;i++)
 	{
  		if (fichier != NULL)
    		 {
         		fscanf (fichier,"%s %d %d", tmp,&a,&b);
         		tab[i].nom=strdup(tmp);
-			printf(" tab.nom = %s \n",tab[i].nom);
+			//printf(" tab.nom = %s \n",tab[i].nom);
         		tab[i].type=a;
         		tab[i].nb_op=b;
-        		printf("type %d %d \n", tab[i].type , b);
+        		//printf("type %d %d \n", tab[i].type , b);
 		} else {
 			fprintf(stderr,"le fichier n'existe pas.\n");
 		}

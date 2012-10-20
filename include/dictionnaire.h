@@ -15,7 +15,6 @@ typedef struct
 }DICO_INST;
 
 
-
 #ifndef _union
 #define _union
 
@@ -28,6 +27,7 @@ union val {
 	unsigned int taille; //.space
 	};
 #endif
+
 
 typedef struct 
 {

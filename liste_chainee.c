@@ -44,12 +44,14 @@ int est_vide(LISTE_LEXEME L)
 	return !L;
 }
 
-void Visualiser_Liste( LISTE_LEXEME L)
-{
-	LISTE_LEXEME p=L;
-	while (!est_vide(p)) {
-		p=p->suiv;
-	}
+
+void visualiser_ope( LISTE_OPERANDE L)
+{LISTE_OPERANDE Liste;
+
+  for(Liste=L->suiv;Liste!=L;Liste=Liste->suiv)
+  {  printf("opérande : %s \n",Liste->mot);
+}
+     printf("opérande: %s \n",L->mot);
 }
 
 void visualiser( LISTE_LEXEME L)

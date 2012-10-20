@@ -35,31 +35,61 @@ char* mot = strdup(Tab_mot[1]);
 }
 
 
-DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* DICO_DIR )
+DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir )
 {
-DATA_DIRECTIVE dir;
-return dir;
-}
-/*
-char * mot=Tab_mot[2];
+char * mot=Tab_mot[1];
 char * dico;
+DATA_DIRECTIVE directive ;
+int i,x;
+int k=0;
+int j=0;
 
-for(i=0;i<size;i++)
+
+for(i=0;i<dico_dir[0].size;i++)
 	{
-		dico = DICO_DIR[i];
+		dico = dico_dir[i].nom;
 		if (strcmp(mot,dico)==0) //on vérifie que notre directive est bien dans le dico
-	 	x=1;
+	 	{
+		x=1;
+		break;
+		}
 	}
 		if (x==1)
 		{
-		data.nom=Tab_mot[2];
-		//data.val=Tab_mot[3]; comment faire avec union val ???
+		directive.nom=Tab_mot[1];
+			// cas de .set
+			if(dico_dir[i].valeur.option!= NULL)
+			{
+				directive.valeur.option=Tab_mot[3];
+			}//cas de .byte
+			else if(strcmp(directive.nom,".byte")==0)
+			{	int a=2;
+				while (Tab_mot[a]!=NULL)
+				{
+				directive.valeur.octet[j]=strdup(Tab_mot[a]);
+				j=j+1;
+				a++;
+				}
+			}
+			//cas de .word
+			else if (strcmp(directive.nom,".word")==0)
+			{int b=2;
+				while (Tab_mot[b]!=NULL)
+				{
+				directive.valeur.mot[k]=strdup(Tab_mot[b]);	
+				k=k+1;
+				b++;
+				}
+			}
 		}
-		else 
-		data.erreur=1;	
-return data ;
+	else 
+			{  exit(erreur_caractere2(mot));
+			 }
 
-}*/
+					
+return directive;
+
+}
 
 
 ETIQUETTE action3(char** Tab_mot,int num_ligne,int x)
@@ -83,6 +113,8 @@ int x=0;
 
 char* nom = Tab_mot[1];
 // TODO: changer size
+printf("size = %i \n",dico_inst[0].size );
+
 for (i=0;i<dico_inst[0].size;i++)
 	{
 		char* dico_insti = dico_inst[i].nom;
@@ -110,11 +142,13 @@ if ( dico_inst[i].nb_op == 1)
 	}
 else 
 	{
-		printf("Le nombre d'opérandes associees a %s est incorrect",instruction.nom);
+		printf("Le nombre d'opérandes associees a %s est incorrect \n",instruction.nom);
 	}
 
 return instruction;
 }
+
+
 
 /*
 
@@ -131,31 +165,30 @@ INSTRUCTION action6(LISTE_LEXEME L2,char* Tab_mot)
 }
 */
 
-/*pb car ne rentre pas dans symbole */
+
 
 /* main pour tester ACTION4 */
 /*
 int main(void)
 {
-
-//DICO_INST* Dico;
-//Dico=lecture_inst();
-printf("je suis dans le main");
+DICO_INST* Dico = calloc(100,sizeof(DICO_INST));
+lecture_inst(Dico);
 int i=1;
 char* Tab_mot[5];
-Tab_mot[1]="ADD";
+Tab_mot[1]="J";
 Tab_mot[2]="$1";
-Tab_mot[3]="$2";
-Tab_mot[4]="$3";
 
-for(i=1;i<6;i++)
+int isdata=1;
+int num_ligne=3;
+INSTRUCTION inst;
 
-	{ 	printf("%s",Tab_mot[i]);}
-//action4(Tab_mot,Dico,Dico.size);
+inst=action4(Tab_mot,Dico,isdata,num_ligne);
+
+printf("inst->nom = %s ", inst.nom);
+visualiser_ope(inst.liste); 
+return 0;
+}
 */
-//return 0;
-//}
-
 // main pour tester ACTION1
 
 /*

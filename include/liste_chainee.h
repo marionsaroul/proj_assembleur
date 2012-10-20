@@ -21,6 +21,7 @@ LISTE_LEXEME enfiler(char* etat, char* mot,int S, LISTE_LEXEME L);
 LISTE_LEXEME defiler (LISTE_LEXEME* pL);
 int est_vide(LISTE_LEXEME L);
 void visualiser( LISTE_LEXEME L);
+void visualiser_ope( LISTE_OPERANDE L);
 LISTE_LEXEME creer_liste(void);
 LISTE_OPERANDE enfiler_ope(char* mot, LISTE_OPERANDE L);
 

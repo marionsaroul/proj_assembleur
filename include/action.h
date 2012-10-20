@@ -17,21 +17,11 @@ typedef struct
 } INSTRUCTION ;
 
 
-#ifndef _union
-#define _union
 
-
-
-union val {
-	char octet;
-	int mot;
-	unsigned int taille;
-	};
-#endif
 
 typedef struct 
 {	char* nom;
-	//union val valeur;
+	union val valeur;
 	int num_ligne;
 	int segment;
 	int erreur ; //0= pas d'erreur 1=erreur synt 2=erreur nb ope
