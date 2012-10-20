@@ -6,7 +6,7 @@ TAR=`which tar` --exclude=.svn -czvf
 
 INCDIR=-I include
 
-CFLAGS=-Wall -g -pedantic $(INCDIR)
+CFLAGS=-Wall -g -pedantic -std=c99 $(INCDIR)
 LFLAGS=
 
 OBJ=  auto_nombre.o  liste_chainee.o collection.o action.o dictionnaire.o

@@ -50,3 +50,7 @@ typedef struct
 void lecture_inst(DICO_INST* tab);
 void lecture_dir(DICO_DIR* tab);
 char * lecture_symb (void);
+
+
+
+char* strdup(char *str);

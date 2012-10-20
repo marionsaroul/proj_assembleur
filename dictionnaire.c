@@ -106,3 +106,13 @@ lecture_dir(tab);
 return 0;
 }
 */
+
+
+char* strdup(char *str)
+{
+  char  *dup;
+
+  dup = malloc(strlen(str));
+  return (dup ? strcpy(dup, str) : NULL);
+}
+

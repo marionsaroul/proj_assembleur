@@ -8,6 +8,7 @@
  */
 
 #include "analyse_lex_syn.h"
+#include "dictionnaire.h"
 
 int erreur_caractere ( char * , int  , int );
 int classifie(char* );

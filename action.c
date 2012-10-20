@@ -1,5 +1,3 @@
-
-
 #include "action.h"
 
 int erreur_caractere2 ( char *ligne) 
@@ -168,7 +166,7 @@ INSTRUCTION action6(LISTE_LEXEME L2,char* Tab_mot)
 
 
 /* main pour tester ACTION4 */
-/*
+
 int main(void)
 {
 DICO_INST* Dico = calloc(100,sizeof(DICO_INST));
@@ -182,13 +180,15 @@ int isdata=1;
 int num_ligne=3;
 INSTRUCTION inst;
 
+
 inst=action4(Tab_mot,Dico,isdata,num_ligne);
+
 
 printf("inst->nom = %s ", inst.nom);
 visualiser_ope(inst.liste); 
 return 0;
 }
-*/
+
 // main pour tester ACTION1
 
 /*
