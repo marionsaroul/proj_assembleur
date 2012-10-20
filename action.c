@@ -60,6 +60,8 @@ for(i=0;i<dico_dir[0].size;i++)
 			{
 				directive.valeur.option=Tab_mot[3];
 			}//cas de .byte
+
+
 			else if(strcmp(directive.nom,".byte")==0)
 			{	int a=2;
 				while (Tab_mot[a]!=NULL)
@@ -81,8 +83,8 @@ for(i=0;i<dico_dir[0].size;i++)
 			}
 		}
 	else 
-			{  exit(erreur_caractere2(mot));
-			 }
+		{  exit(erreur_caractere2(mot));
+		 }
 
 					
 return directive;
@@ -164,9 +166,25 @@ INSTRUCTION action6(LISTE_LEXEME L2,char* Tab_mot)
 */
 
 
+/*main pour tester action3 */
+int main(void)
+{
+DICO_DIR* Dico = calloc(100,sizeof(DICO_INST));
+lecture_dir(Dico);
+int i=1;
+char* Tab_mot[5];
+Tab_mot[1]=".byte";
+Tab_mot[2]="1";
 
+int isdata=1;
+int num_ligne=3;
+DATA_DIRECTIVE directive;
+directive=action2 (Tab_mot, isdata,Dico );
+
+
+}
 /* main pour tester ACTION4 */
-
+/*
 int main(void)
 {
 DICO_INST* Dico = calloc(100,sizeof(DICO_INST));
@@ -188,7 +206,7 @@ printf("inst->nom = %s ", inst.nom);
 visualiser_ope(inst.liste); 
 return 0;
 }
-
+*/
 // main pour tester ACTION1
 
 /*
