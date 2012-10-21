@@ -163,8 +163,8 @@ INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_lig
    }
    */
 
+/*
 
-/*main pour tester action2 */
 int main(void)
 {
         DICO_DIR* Dico = calloc(100,sizeof(DICO_DIR));
@@ -180,6 +180,7 @@ int main(void)
         DATA_DIRECTIVE directive;
         directive=action2(Tab_mot, isdata,Dico );
 }
+*/
 /* main pour tester ACTION4 */
 /*
    int main(void)

@@ -75,7 +75,7 @@ for (i=0; i<pnb;i++)
    		 {
         		fgets(tmp,511,fichier);
         		tab[i].nom=strtok(tmp," ");
-        		printf("type %s, i : %i  \n", tab[i].nom );
+        		printf("type %s \n", tab[i].nom );
 			tmp2 = strtok(NULL," ");
 			if (strcmp(tmp2,"\n")==1) {
 				// cas de set noreorder
