@@ -11,11 +11,11 @@ int erreur_caractere2 ( char *ligne)
 int action1(char** Tab_mot,int isdata)
 { 					/*si .data on met à x=1, si .text on met à x=0*/
         /*le point est range en tab_mot[1] on ne s'occupe pas de la case 0*/
-        char* data = "data";
-        char* text = "text";
+        char* data = ".data";
+        char* text = ".text";
         char* mot = strdup(Tab_mot[1]);
 
-        //printf("comparaison %d",strcmp(mot,data));
+       // printf("comparaison de %d \n",strcmp(mot,data));
 
         if (strcmp(mot,data)==0)
         {	
@@ -33,7 +33,7 @@ int action1(char** Tab_mot,int isdata)
 }
 
 
-DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir, int size, int Tab_mot_size)
+DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir, int size,int Tab_mot_size,int num_ligne)
 {
         char * mot=Tab_mot[1];
         char * dico;
@@ -54,8 +54,10 @@ DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir, int size, 
         }
         if (x==1)
         {
-                // TODO : rajouter cas de num_ligne
+               
                 directive.nom=Tab_mot[1];
+		directive.isdata=isdata;
+		directive.num_ligne=num_ligne;
                 // cas de .set
                 if(dico_dir[i].valeur.option!= NULL)
                 {
@@ -88,7 +90,9 @@ DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir, int size, 
                 }
         }
         else 
-        {  exit(erreur_caractere2(mot));
+        { directive.erreur=1;
+		directive.num_ligne=num_ligne;
+		 exit(erreur_caractere2(mot));
         }
 
 
@@ -103,7 +107,7 @@ ETIQUETTE action3(char** Tab_mot,int num_ligne,int isdata)
         ETIQUETTE symbole;
         symbole.nom=Tab_mot[2];
         symbole.num_ligne=num_ligne;
-        symbole.segment=isdata; 
+        symbole.isdata=isdata; 
         return symbole;
 }
 
@@ -135,7 +139,9 @@ INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_lig
         }
  
         if (x==1)
-        {instruction.nom=nom;}
+        {instruction.nom=nom;
+	instruction.isdata=isdata;
+	instruction.num_ligne=num_ligne;}
 
         if (x==0)
         {erreur_caractere2(nom);}

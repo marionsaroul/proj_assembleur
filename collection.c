@@ -7,7 +7,7 @@ LISTE2 collection (LISTE_LEXEME L)
 
 
         LISTE_LEXEME lexeme;
-        LISTE2 Liste_instructions;
+        LISTE2 Liste_instructions=NULL;
 
         /*LISTE2 l2;*/
         int num_ligne=0;
@@ -16,7 +16,7 @@ LISTE2 collection (LISTE_LEXEME L)
         int i;
         int isdata=0;
 
-        DATA_DIRECTIVE data_dir;
+        DATA_DIRECTIVE data;
         ETIQUETTE symbole;
         INSTRUCTION instruction ;
 
@@ -44,30 +44,35 @@ LISTE2 collection (LISTE_LEXEME L)
                         i++; 
                         lexeme=defiler(&L); // on récupère le premier mot du lexème 
                         mot=lexeme->mot;
+
                         printf(" etat : %i mot : %s F= %i comparaison de %i \n", lexeme->num_etat, mot, F, strcmp(mot,nl));
 
 
 
                         switch (F) {	
+
                                 case INIT2: 
                                         // test si symbole 
-                                        if (lexeme->num_etat==8)
-                                        {Tab_mot[i]=strdup(mot);
-
-                                                F=DEBUT_SYMBOLE; }
+                                        if (lexeme->num_etat==7)
+                                        {
+                                                Tab_mot[i]=strdup(mot);
+                                                F=DEBUT_SYMBOLE; 
+                                        }
 
                                         //test si directive
-                                        else if (lexeme->num_etat==17)
-                                        {Tab_mot[i]=strdup(mot);
-                                                F=DEBUT_DIRECTIVE2;}
+                                        else if (lexeme->num_etat==16)
+                                        {
+                                                Tab_mot[i]=strdup(mot);
+                                                F=DEBUT_DIRECTIVE2;
+                                        }
 
                                         //test si fin de ligne ou commentaire
-                                        else if(lexeme->num_etat==7 || lexeme->num_etat==15 )
-                                        {break;}
-
-                                        else {
+                                        else if(lexeme->num_etat==6 || lexeme->num_etat==14)
+                                        {
+                                                break;
+                                        } else {
                                                 erreur_caractere2 ( lexeme->mot );
-                                                exit(0);
+                                                break;
                                         }
                                         break;
 
@@ -79,16 +84,15 @@ LISTE2 collection (LISTE_LEXEME L)
                                                 action1(Tab_mot,isdata);
                                         }
 
-                                        //test si nombre ou symbole
-                                        else if (lexeme->num_etat==8 || lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
+                                        //test si nombre ou symbole ou registre
+                                        else if (lexeme->num_etat==7 || lexeme->num_etat==11 || lexeme->num_etat==3 || lexeme->num_etat==4 || lexeme->num_etat==5 )
                                         {	
                                                 Tab_mot[i]=strdup(mot);
                                                 F=DIR_1;
                                         } else {
                                                 erreur_caractere2 ( lexeme->mot );
-                                                exit(0);
+                                                break;
                                         }
-
                                         break;
 
                                 case DIR_1 :
@@ -100,13 +104,11 @@ LISTE2 collection (LISTE_LEXEME L)
 
                                         else if (strcmp(mot,nl)==0)
                                         {
-                                                data_dir=action2(Tab_mot,isdata,dico_dir,size_dir,i-1 );
-                                                // on ajoute data_dir à la liste renvoyée
-                                                Liste_instructions = ajout((void*) &data_dir,Liste_instructions);
-                                                printf("data ajouté !\n");
+                                                printf("i : %i\n",i);
+                                                data=action2(Tab_mot,isdata,dico_dir,size_dir,i-1 ,num_ligne);
                                         } else {
                                                 erreur_caractere2 ( lexeme->mot );
-                                                exit(0);
+                                                break;
                                         }
 
                                         break;
@@ -114,12 +116,13 @@ LISTE2 collection (LISTE_LEXEME L)
                                 case DEBUT_SYMBOLE : 
                                         //test si deux points
 
-                                        if (lexeme->num_etat==9)
+                                        if (lexeme->num_etat==8)
                                         {Tab_mot[i]=strdup(mot);
                                                 F=ETIQUETTE2 ;}
 
                                         //test si registre ou hexa ou octal ou decimal (ou étiquette ?) *
-                                        else  if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
+                                        else if (lexeme->num_etat==7 || lexeme->num_etat==11 || lexeme->num_etat==3 || lexeme->num_etat==4 || lexeme->num_etat==5 )
+
                                         {Tab_mot[i]=strdup(mot);
                                                 F=INST_1 ;
                                         } 
@@ -128,9 +131,8 @@ LISTE2 collection (LISTE_LEXEME L)
 
                                 case ETIQUETTE2 :
                                         //test si symbole 
-                                        if (lexeme->num_etat==8)
-                                        {
-                                                Tab_mot[i]=strdup(mot);
+                                        if (lexeme->num_etat==7)
+                                        {Tab_mot[i]=strdup(mot);
                                                 F=DEBUT_SYMBOLE; }
 
                                         //test fin de ligne
@@ -152,30 +154,33 @@ LISTE2 collection (LISTE_LEXEME L)
 
                                         // test virgule
 
-                                        else if(lexeme->num_etat==10) {
-                                                F=INST_2;}
+                                        else if(lexeme->num_etat==9)
+                                        {F=INST_2;}
 
                                         //test si étiquette
-                                        else if (lexeme->num_etat==8)
-                                        {
-                                                Tab_mot[i]=strdup(mot);
+                                        else if (lexeme->num_etat==7)
+                                        {Tab_mot[i]=strdup(mot);
                                                 F=DEBUT_SYMBOLE; 
                                         } else {
                                                 erreur_caractere2 ( lexeme->mot );
-                                                exit(0);
+                                                break;
                                         }
+
 
                                         break;
 
                                 case INST_2 :
                                         // test si registre ou hexa ou octal ou decimal 
-                                        if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
+                                        if (lexeme->num_etat==7 || lexeme->num_etat==11 || lexeme->num_etat==3 || lexeme->num_etat==4 || lexeme->num_etat==5 )
+
                                         {Tab_mot[i]=strdup(mot);
                                                 F=INST_3;
                                         } else {
                                                 erreur_caractere2 ( lexeme->mot );
-                                                exit(0);
+                                                break;
                                         }
+
+
                                         break;
 
                                 case INST_3 :
@@ -186,31 +191,31 @@ LISTE2 collection (LISTE_LEXEME L)
 
                                         //test virgule
 
-                                        else if(lexeme->num_etat==10)
+                                        else if(lexeme->num_etat==9)
                                         {
                                                 F=INST_4;}
 
                                         // test si étiquette 
-                                        else if (lexeme->num_etat==8)
-                                        {
-                                                Tab_mot[i]=strdup(mot);
+                                        else if (lexeme->num_etat==7)
+                                        {Tab_mot[i]=strdup(mot);
                                                 F=DEBUT_SYMBOLE; 
-
                                         } else {
                                                 erreur_caractere2 ( lexeme->mot );
-                                                exit(0);
+                                                break;
                                         }
+
                                         break;
 
 
                                 case INST_4 :
                                         //test si registre ou hexa ou octal ou decimal 
-                                        if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
+                                        if (lexeme->num_etat==7 || lexeme->num_etat==11 || lexeme->num_etat==3 || lexeme->num_etat==4 || lexeme->num_etat==5 )
+
                                         {Tab_mot[i]=strdup(mot);
                                                 F=INST_5;
                                         } else {
                                                 erreur_caractere2 ( lexeme->mot );
-                                                exit(0);
+                                                break;
                                         }
 
                                         break;
@@ -222,12 +227,14 @@ LISTE2 collection (LISTE_LEXEME L)
                                                 printf("action6"); }
 
                                         //test si étiquette 
-                                        else if (lexeme->num_etat==8)
+                                        else if (lexeme->num_etat==7)
                                         {Tab_mot[i]=strdup(mot);
                                                 F=DEBUT_SYMBOLE;
+
+
                                         } else {
                                                 erreur_caractere2 ( lexeme->mot );
-                                                exit(0);
+                                                break;
                                         }
 
 
@@ -237,7 +244,7 @@ LISTE2 collection (LISTE_LEXEME L)
 
         }
 
-        return Liste_instructions ;
+        return Liste_instructions;
 
 }
 
@@ -251,15 +258,41 @@ LISTE2 collection (LISTE_LEXEME L)
 int main (void) 
 {
         LISTE_LEXEME L=NULL;
-        L=enfiler("DIRECTIVE",".data",17,L);
+
+
+        //test action 4
+        L=enfiler("SYMBOLE","J",7,L);
+        L=enfiler("REGISTRE","$6",11,L);
+        L=enfiler("NL","\n",6,L);
+        //test action 2
+        L=enfiler("DIRECTIVE",".byte",16,L);
+        L=enfiler("DECIMAL","6",4,L);
+        L=enfiler("DECIMAL","7",4,L);
+        L=enfiler("DECIMAL","8",4,L);
+        L=enfiler("DECIMAL","9",4,L);
+        L=enfiler("DECIMAL","10",4,L);
+        L=enfiler("NL","\n",6,L);
+        //test action 1
+        L=enfiler("DIRECTIVE",".data",16,L);
+        L=enfiler("NL","\n",6,L);
+        //test action 3
+        L=enfiler("SYMBOLE","etiqu1",7,L);
+        L=enfiler("DEUX_PTS",":",8,L);
+        L=enfiler("NL","\n",6,L);
+        //test erreur action4
+        L=enfiler("SYMBOLE","J1",6,L);
+        L=enfiler("REGISTRE","$6",11,L);
+        L=enfiler("NL","\n",6,L);
+        L=enfiler("SYMBOLE","J",7,L);
+        L=enfiler("REGISTRE","$6",12,L);
+        L=enfiler("REGISTRE","7",12,L);
         L=enfiler("NL","\n",7,L);
         visualiser(L);
+        collection(L);   
+
+
         LISTE2 Liste_instructions = NULL;
         Liste_instructions = collection(L);
-        //visualiser_listegen(Liste_instructions, aff1) ;
+        printf("\nOn visualise la liste créée \n");
+        visualiser_listegen(Liste_instructions,aff1);
 }	
-
-
-//teste avec :gcc -std=c99 -Wall -Wextra -o ion collection.c	
-//puis  ./collection
-
