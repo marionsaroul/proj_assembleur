@@ -107,7 +107,7 @@ size_dir=lecture_dir(dico_dir);
 						case DIR_2 :
 						
 							 if (strcmp(mot,nl)==0) 
-							{data=action2(Tab_mot,isdata,dico_dir,size_dir );
+							{data=action2(Tab_mot,isdata,dico_dir,size_dir,2 );
 							/*L2=ajout(d,L);*/
 							 printf("action2");
 							 }	
