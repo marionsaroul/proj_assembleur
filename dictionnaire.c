@@ -52,6 +52,7 @@ int lecture_dir(DICO_DIR* tab) {
 
         int i =0 ;
 
+
         FILE *fichier = NULL;
         fichier=fopen("dir.txt","r");
 
@@ -83,6 +84,7 @@ int lecture_dir(DICO_DIR* tab) {
                 }
         }
         return pnb;
+
 }
 
 
