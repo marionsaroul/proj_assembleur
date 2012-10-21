@@ -35,9 +35,9 @@ typedef struct
 } ETIQUETTE;
 
 
-int erreur_caractere2 ( char *ligne );
+int erreur_caractere2 ( char *ligne, int num_ligne );
 
-int action1(char** Tab_mot,int x);
+int action1(char** Tab_mot,int x,int num_ligne);
 
 DATA_DIRECTIVE action2(char** Tab_mot,int isdata,DICO_DIR* DICO_DIR, int size, int Tab_mot_size,int num_ligne);
 
@@ -45,6 +45,7 @@ ETIQUETTE action3(char** Tab_mot,int num_ligne,int x);
 
 INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_ligne,int size);
 
+INSTRUCTION action5(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_ligne, int size);
 
-
+INSTRUCTION action6(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_ligne, int size);
 

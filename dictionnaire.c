@@ -3,19 +3,15 @@
 int lecture_inst(DICO_INST* tab) {
 
         int pnb=0;
-
         int i =0 ;
         int a,b;
 
         FILE *fichier = NULL;
         fichier=fopen("instructions.txt","r");
 
-        if (fichier != NULL)
-        {
-                fscanf(fichier, "%d", &pnb);
-                //printf("La taille du dico est: %d", pnb);
-        }
-
+        
+        fscanf(fichier, "%d", &pnb);
+                   
         // premier ligne du fichier texte indique le nombre de ligne pnb ie le nombre d'instruction
 
         //DICO_INST tab[pnb];
@@ -23,7 +19,7 @@ int lecture_inst(DICO_INST* tab) {
 
         for (i=0; i<pnb;i++)
         {
-                if (fichier != NULL)
+                if(fichier != NULL)
                 {
                         fscanf (fichier,"%s %d %d", tmp,&a,&b);
                         tab[i].nom=strdup(tmp);
@@ -47,26 +43,21 @@ int lecture_inst(DICO_INST* tab) {
 int lecture_dir(DICO_DIR* tab) {
 
         int pnb;
-
         int i =0 ;
 
 
         FILE *fichier = NULL;
         fichier=fopen("dir.txt","r");
-
-        if (fichier != NULL)
-        {
-                fscanf(fichier, "%d\n", &pnb);
-              //  printf("la taille du dico est %d\n", pnb);
-        }
-
+	
+        fscanf(fichier, "%d", &pnb);
+       
         // premier ligne du fichier texte indique le nombre de ligne pnb ie le nombre d'instruction
         char tmp[512];
         char* tmp2;
 
         for (i=0; i<pnb;i++)
         {
-                if (fichier != NULL)
+                if(fichier != NULL)
                 {
                         fgets(tmp,511,fichier);
                         tab[i].nom=strdup(strtok(tmp," "));

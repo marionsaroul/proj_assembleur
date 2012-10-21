@@ -1,8 +1,6 @@
 
 
 #include "analyse_lex_syn.h"
-#include "auto_nombre.h"
-#include "liste_chainee.h"
 
 int main ()
 {
@@ -10,8 +8,10 @@ int main ()
 
         FILE *Fichier;
 
-        Fichier=fopen("Test_general.txt","r"); 
-
+        //Fichier=fopen("fichier_vide.txt","r"); 
+	Fichier=fopen("Test_general.txt","r");
+	
+	 
         int S ;
         LISTE_LEXEME L;
         L=creer_liste() ;
@@ -54,15 +54,13 @@ int main ()
 
                 }
         }
-        visualiser(L);	
-
-        /*
-
-           collection(L) ; 
-
-*/
-
-
-        return 0;
+	if (L!=NULL) {
+       		visualiser(L);	
+	} else {
+		printf("le fichier assembleur est vide \n");	
+		}
+     
+       LISTE2 l2 = collection(L);
+       return 0;
 }
 

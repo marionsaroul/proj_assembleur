@@ -16,7 +16,7 @@
 
 #include <ctype.h>
 
-
+#include "dictionnaire.h"
 #include "auto_nombre.h"
 
 

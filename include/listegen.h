@@ -21,6 +21,7 @@ typedef struct {
 void aff1(void *px);
 void aff2(void *px);
 void aff3(void *px);
+void aff4(void *px);
 
 LISTE2 ajout(void *p_e, LISTE2 l); 
 void visualiser_listegen(LISTE2 l, void (*aff) (void *)) ;

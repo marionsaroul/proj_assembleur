@@ -1,14 +1,14 @@
 #include "action.h"
 
-int erreur_caractere2 ( char *ligne) 
+int erreur_caractere2 ( char *ligne, int num_ligne) 
 {
 
-        printf("erreur à la chaine %s \n",ligne);
+        printf("erreur à la chaine %s de la %ième ligne de votre code assembleur \n",ligne, num_ligne);
         return -1;
 }
 
 
-int action1(char** Tab_mot,int isdata)
+int action1(char** Tab_mot,int isdata,int num_ligne)
 { 					/*si .data on met à x=1, si .text on met à x=0*/
         /*le point est range en tab_mot[1] on ne s'occupe pas de la case 0*/
         char* data = ".data";
@@ -29,7 +29,7 @@ int action1(char** Tab_mot,int isdata)
                 /*printf("la directive est un .text et x = %d \n",x);*/
                 return 0;
         }
-        else return erreur_caractere2(mot);
+        else return erreur_caractere2(mot,num_ligne);
 }
 
 
@@ -92,7 +92,7 @@ DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir, int size,i
         else 
         { directive.erreur=1;
 		directive.num_ligne=num_ligne;
-		 exit(erreur_caractere2(mot));
+		 exit(erreur_caractere2(mot,num_ligne));
         }
         return directive;
 
@@ -142,7 +142,7 @@ INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_lig
 	instruction.num_ligne=num_ligne;}
 
         if (x==0)
-        {erreur_caractere2(nom);}
+        {erreur_caractere2(nom,num_ligne);}
 
         /*Comparaison nombre d'operandes, il en faut une seule dans l'action 4 */
 
@@ -162,6 +162,113 @@ INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_lig
         return instruction;
 }
 
+INSTRUCTION action5 (char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_ligne, int size)
+{
+        /*Comparaison de la premiere case avec les noms dans le dico des instructions message d'erreur*/
+
+        INSTRUCTION instruction;
+        int i=0;
+        int x=0;
+
+        char* nom = Tab_mot[1];
+        printf("size = %i \n",size );
+
+	
+        for (i=0;i<size;i++)
+        {
+                char* dico_insti = dico_inst[i].nom;
+
+
+               
+		 if (strcmp(nom,dico_insti)==0)
+                {
+
+                        x=1;
+                        break;	
+                }	
+        }
+ 
+        if (x==1)
+        {instruction.nom=nom;
+	instruction.isdata=isdata;
+	instruction.num_ligne=num_ligne;}
+
+        if (x==0)
+        {erreur_caractere2(nom,num_ligne);}
+
+        /*Comparaison nombre d'operandes, il en faut une seule dans l'action 4 */
+
+        if ( dico_inst[i].nb_op == 2)
+        {
+                // initialisation d'instruction.liste
+                instruction.liste = 0;
+                instruction.liste = enfiler_ope(Tab_mot[2],instruction.liste);
+		instruction.liste = enfiler_ope(Tab_mot[3],instruction.liste);
+                instruction.erreur = 0;
+                instruction.num_ligne = num_ligne;
+        }
+        else 
+        {
+                printf("Le nombre d'opérandes associees a %s est incorrect \n",instruction.nom);
+        }
+
+        return instruction;
+}
+
+
+INSTRUCTION action6(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_ligne, int size)
+{
+        /*Comparaison de la premiere case avec les noms dans le dico des instructions message d'erreur*/
+
+        INSTRUCTION instruction;
+        int i=0;
+        int x=0;
+
+        char* nom = Tab_mot[1];
+        printf("size = %i \n",size );
+
+	
+        for (i=0;i<size;i++)
+        {
+                char* dico_insti = dico_inst[i].nom;
+
+
+               
+		 if (strcmp(nom,dico_insti)==0)
+                {
+
+                        x=1;
+                        break;	
+                }	
+        }
+ 
+        if (x==1)
+        {instruction.nom=nom;
+	instruction.isdata=isdata;
+	instruction.num_ligne=num_ligne;}
+
+        if (x==0)
+        {erreur_caractere2(nom,num_ligne);}
+
+        /*Comparaison nombre d'operandes, il en faut une seule dans l'action 4 */
+
+        if ( dico_inst[i].nb_op == 2)
+        {
+                // initialisation d'instruction.liste
+                instruction.liste = 0;
+                instruction.liste = enfiler_ope(Tab_mot[2],instruction.liste);
+		instruction.liste = enfiler_ope(Tab_mot[3],instruction.liste);
+		instruction.liste = enfiler_ope(Tab_mot[4],instruction.liste);
+                instruction.erreur = 0;
+                instruction.num_ligne = num_ligne;
+        }
+        else 
+        {
+                printf("Le nombre d'opérandes associees a %s est incorrect \n",instruction.nom);
+        }
+
+        return instruction;
+}
 
 
 

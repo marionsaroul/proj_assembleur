@@ -45,7 +45,7 @@ LISTE2 collection (LISTE_LEXEME L)
                         lexeme=defiler(&L); // on récupère le premier mot du lexème 
                         mot=lexeme->mot;
 
-                        printf(" etat : %i mot : %s, F= %i comparaison de %i \n", lexeme->num_etat, mot,F, strcmp(mot,nl));
+                        //printf(" etat : %i mot : %s, F= %i comparaison de %i \n", lexeme->num_etat, mot,F, strcmp(mot,nl));
 
 
 
@@ -54,7 +54,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                 case INIT2: 
                                         // test si symbole 
                                         if (lexeme->num_etat==7)
-                                        {printf("je suis dans le main \n");
+                                        {
                                                 Tab_mot[i]=strdup(mot);
                                                 F=DEBUT_SYMBOLE; 
                                         }
@@ -71,7 +71,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                         {
                                                 break;
                                         } else {
-                                                erreur_caractere2 ( lexeme->mot );
+                                                erreur_caractere2 ( lexeme->mot,num_ligne);
                                                 break;
                                         }
                                         break;
@@ -81,7 +81,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                         //test si fin de ligne 
                                         if (strcmp(mot,nl)==0)  
                                         {
-                                                action1(Tab_mot,isdata);
+                                                action1(Tab_mot,isdata,num_ligne);
                                         }
 
                                         //test si nombre ou symbole ou registre
@@ -90,7 +90,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                                 Tab_mot[i]=strdup(mot);
                                                 F=DIR_1;
                                         } else {
-                                                erreur_caractere2 ( lexeme->mot );
+                                                erreur_caractere2 ( lexeme->mot,num_ligne);
                                                 break;
                                         }
                                         break;
@@ -166,7 +166,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                         {Tab_mot[i]=strdup(mot);
                                                 F=DEBUT_SYMBOLE; 
                                         } else {
-                                                erreur_caractere2 ( lexeme->mot );
+                                                erreur_caractere2 ( lexeme->mot,num_ligne);
                                                 break;
                                         }
 
@@ -180,7 +180,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                         {Tab_mot[i]=strdup(mot);
                                                 F=INST_3;
                                         } else {
-                                                erreur_caractere2 ( lexeme->mot );
+                                                erreur_caractere2 ( lexeme->mot,num_ligne);
                                                 break;
                                         }
 
@@ -191,7 +191,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                         //test fin de ligne après 2eme opérande 
                                         if (strcmp(mot,nl)==0) 
                                         {// I2=action5(L,tab_mot) ;
-                                                printf("action5"); }
+                                                }
 
                                         //test virgule
 
@@ -204,7 +204,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                         {Tab_mot[i]=strdup(mot);
                                                 F=DEBUT_SYMBOLE; 
                                         } else {
-                                                erreur_caractere2 ( lexeme->mot );
+                                                erreur_caractere2 ( lexeme->mot,num_ligne);
                                                 break;
                                         }
 
@@ -218,7 +218,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                         {Tab_mot[i]=strdup(mot);
                                                 F=INST_5;
                                         } else {
-                                                erreur_caractere2 ( lexeme->mot );
+                                                erreur_caractere2 ( lexeme->mot,num_ligne);
                                                 break;
                                         }
 
@@ -237,7 +237,7 @@ LISTE2 collection (LISTE_LEXEME L)
 
 
                                         } else {
-                                                erreur_caractere2 ( lexeme->mot );
+                                                erreur_caractere2 ( lexeme->mot,num_ligne);
                                                 break;
                                         }
 
@@ -247,7 +247,6 @@ LISTE2 collection (LISTE_LEXEME L)
                 }
 
         }
-
         return l2;
 }
 
@@ -256,7 +255,7 @@ LISTE2 collection (LISTE_LEXEME L)
 
 
 //pb car ne rentre pas dans symbole 
-
+/*
 
 int main (void) 
 {
@@ -266,14 +265,36 @@ int main (void)
         L=enfiler("SYMBOLE","J",7,L);
         L=enfiler("REGISTRE","$6",11,L);
         L=enfiler("NL","\n",6,L);
+
+        //test action 2
+        L=enfiler("DIRECTIVE",".byte",16,L);
+        L=enfiler("DECIMAL","6",4,L);
+        L=enfiler("DECIMAL","7",4,L);
+        L=enfiler("DECIMAL","8",4,L);
+        L=enfiler("DECIMAL","9",4,L);
+        L=enfiler("DECIMAL","10",4,L);
+        L=enfiler("NL","\n",6,L);
+        //test action 1
+        //        L=enfiler("DIRECTIVE",".data",16,L);
+        //        L=enfiler("NL","\n",6,L);
+        //        //test action 3
+        //        L=enfiler("SYMBOLE","etiqu1",7,L);
+        //        L=enfiler("DEUX_PTS",":",8,L);
+        //        L=enfiler("NL","\n",6,L);
+        //        //test erreur action4
+        //        L=enfiler("SYMBOLE","J1",6,L);
+        //        L=enfiler("REGISTRE","$6",11,L);
+        //        L=enfiler("NL","\n",6,L);
+        //        L=enfiler("SYMBOLE","J",7,L);
+        //        L=enfiler("REGISTRE","$6",12,L);
+        //        L=enfiler("REGISTRE","7",12,L);
+        //        L=enfiler("NL","\n",7,L);
+
         visualiser(L);
-        collection(L);   
 
-
-        LISTE2 l2 = NULL;
-        l2 = collection(L);
+        LISTE2 l2 = collection(L);
         printf("\nOn visualise la liste créée \n");
         visualiser_listegen(l2,aff1);
         visualiser_listegen(l2,aff2);
         visualiser_listegen(l2,aff3);
-}	
+}	*/

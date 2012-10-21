@@ -57,7 +57,7 @@ void visualiser_ope( LISTE_OPERANDE L)
        printf("opérande: %s \n",L->mot);
 }
 
-void visualiser( LISTE_LEXEME L)
+void visualiser(LISTE_LEXEME L)
 {LISTE_LEXEME Liste;
 
         for(Liste=L->suiv;Liste!=L;Liste=Liste->suiv)

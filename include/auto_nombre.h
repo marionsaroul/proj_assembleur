@@ -6,9 +6,8 @@
  * @brief En-tete pour l'automate detectant les differents types de représentation de nombre entier.
  *
  */
+enum { INIT , PRE_HEXA , DEBUT_HEXA , HEXA , DECIMAL , OCTAL , NL ,SYMBOLE , DEUX_PTS , VIRGULE , DEBUT_REGISTRE, REGISTRE , PARENTHESE_OUVRANTE, PARENTHESE_FERMANTE, COMMENT, DEBUT_DIRECTIVE , DIRECTIVE, PLUS, MOINS } ;
 
-#include "analyse_lex_syn.h"
-#include "dictionnaire.h"
 
 int erreur_caractere ( char * , int  , int );
 int classifie(char* );
