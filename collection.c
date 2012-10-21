@@ -52,18 +52,18 @@ size_dir=lecture_dir(dico_dir);
 
 						case INIT2: 
 							// test si symbole 
-							 if (lexeme->num_etat==8)
+							 if (lexeme->num_etat==7)
 							 {Tab_mot[i]=strdup(mot);
 
 							 F=DEBUT_SYMBOLE; }
 							 
 							 //test si directive
-							 else if (lexeme->num_etat==17)
+							 else if (lexeme->num_etat==16)
 							 {Tab_mot[i]=strdup(mot);
 							 F=DEBUT_DIRECTIVE2;}
 							 
 							 //test si fin de ligne ou commentaire
-							 else if(lexeme->num_etat==7 || lexeme->num_etat==15 )
+							 else if(lexeme->num_etat==6 || lexeme->num_etat==14)
 							 {break;}
 							 
 							 else {
@@ -79,8 +79,8 @@ size_dir=lecture_dir(dico_dir);
 							action1(Tab_mot,isdata);
 							}
 							 
-							 //test si nombre ou symbole
-							 else if (lexeme->num_etat==8 || lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
+							 //test si nombre ou symbole ou registre
+							 else if (lexeme->num_etat==7 || lexeme->num_etat==11 || lexeme->num_etat==3 || lexeme->num_etat==4 || lexeme->num_etat==5 )
 							 {	
 							Tab_mot[i]=strdup(mot);
 							F=DIR_1;}
@@ -97,7 +97,7 @@ size_dir=lecture_dir(dico_dir);
 							
 
 							else if (strcmp(mot,nl)==0)
-							{data=action2(Tab_mot,isdata,dico_dir,size_dir,i-1 );
+							{data=action2(Tab_mot,isdata,dico_dir,size_dir,i-1 ,num_ligne);
 							}	
 
 							else return erreur_caractere2 	 ( lexeme->mot );
@@ -106,12 +106,13 @@ size_dir=lecture_dir(dico_dir);
 						case DEBUT_SYMBOLE : 
 							//test si deux points
 						
-							if (lexeme->num_etat==9)
+							if (lexeme->num_etat==8)
 							 {Tab_mot[i]=strdup(mot);
 							 F=ETIQUETTE2 ;}
 							 
 							 //test si registre ou hexa ou octal ou decimal (ou étiquette ?) *
-							 else  if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
+							 else if (lexeme->num_etat==7 || lexeme->num_etat==11 || lexeme->num_etat==3 || lexeme->num_etat==4 || lexeme->num_etat==5 )
+							
 							 {Tab_mot[i]=strdup(mot);
 							 	F=INST_1 ;
 								} 
@@ -120,13 +121,14 @@ size_dir=lecture_dir(dico_dir);
 						
           					case ETIQUETTE2 :
           						//test si symbole 
-          						if (lexeme->num_etat==8)
+          						if (lexeme->num_etat==7)
 							 {Tab_mot[i]=strdup(mot);
 							F=DEBUT_SYMBOLE; }
 							 
 							 //test fin de ligne
 							 else if (strcmp(mot,nl)==0) 
-							 { symbole=action3(Tab_mot,num_ligne,isdata);
+							 { 
+							 symbole=action3(Tab_mot,num_ligne,isdata);
 							 } 
 							 
 						break;
@@ -142,11 +144,11 @@ size_dir=lecture_dir(dico_dir);
 							 
 							 // test virgule
 							 
-							 else if(lexeme->num_etat==10)
+							 else if(lexeme->num_etat==9)
 								 {F=INST_2;}
 							
 							//test si étiquette
-							else if (lexeme->num_etat==8)
+							else if (lexeme->num_etat==7)
 							 {Tab_mot[i]=strdup(mot);
 							F=DEBUT_SYMBOLE; }
 							 
@@ -156,7 +158,8 @@ size_dir=lecture_dir(dico_dir);
 						 
 						 case INST_2 :
 							 // test si registre ou hexa ou octal ou decimal 
-							 if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
+							 if (lexeme->num_etat==7 || lexeme->num_etat==11 || lexeme->num_etat==3 || lexeme->num_etat==4 || lexeme->num_etat==5 )
+							
 								 {Tab_mot[i]=strdup(mot);
 								F=INST_3;}
 							 else return erreur_caractere2 ( lexeme->mot );
@@ -172,12 +175,12 @@ size_dir=lecture_dir(dico_dir);
 							 
 							 //test virgule
 							 
-							 else if(lexeme->num_etat==10)
+							 else if(lexeme->num_etat==9)
 								 {
 								F=INST_4;}
 							
 							// test si étiquette 
-							else if (lexeme->num_etat==8)
+							else if (lexeme->num_etat==7)
 							 {Tab_mot[i]=strdup(mot);
 							F=DEBUT_SYMBOLE; }
 							 
@@ -187,7 +190,8 @@ size_dir=lecture_dir(dico_dir);
 						
 						  case INST_4 :
 							 //test si registre ou hexa ou octal ou decimal 
-							 if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
+						  if (lexeme->num_etat==7 || lexeme->num_etat==11 || lexeme->num_etat==3 || lexeme->num_etat==4 || lexeme->num_etat==5 )
+							
 								 {Tab_mot[i]=strdup(mot);
 								F=INST_5;}
 							 else return erreur_caractere2 ( lexeme->mot );
@@ -201,7 +205,7 @@ size_dir=lecture_dir(dico_dir);
 							 printf("action6"); }
 							
 							//test si étiquette 
-							else if (lexeme->num_etat==8)
+							else if (lexeme->num_etat==7)
 							 {Tab_mot[i]=strdup(mot);
 							F=DEBUT_SYMBOLE;
 								 }
@@ -229,8 +233,35 @@ size_dir=lecture_dir(dico_dir);
 int main (void) 
 {
 LISTE_LEXEME L=NULL;
-L=enfiler("DIRECTIVE",".data",17,L);
-L=enfiler("NL","\n",7,L);
+
+/*
+test action 4
+L=enfiler("SYMBOLE","J",7,L);
+L=enfiler("REGISTRE","$6",11,L);
+L=enfiler("NL","\n",6,L);
+test action 2
+L=enfiler("DIRECTIVE",".byte",16,L);
+L=enfiler("DECIMAL","6",4,L);
+L=enfiler("DECIMAL","7",4,L);
+L=enfiler("DECIMAL","8",4,L);
+L=enfiler("DECIMAL","9",4,L);
+L=enfiler("DECIMAL","10",4,L);
+L=enfiler("NL","\n",6,L);
+test action 1
+L=enfiler("DIRECTIVE",".data",16,L);
+L=enfiler("NL","\n",6,L);
+test action 3
+L=enfiler("SYMBOLE","etiqu1",7,L);
+L=enfiler("DEUX_PTS",":",8,L);
+L=enfiler("NL","\n",6,L);
+test erreur action4
+L=enfiler("SYMBOLE","J1",6,L);
+L=enfiler("REGISTRE","$6",11,L);
+L=enfiler("NL","\n",6,L);
+L=enfiler("SYMBOLE","J",7,L);
+L=enfiler("REGISTRE","$6",12,L);
+L=enfiler("REGISTRE","7",12,L);
+L=enfiler("NL","\n",7,L);*/
 visualiser(L);
 collection(L);
 }	
