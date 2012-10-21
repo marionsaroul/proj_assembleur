@@ -96,13 +96,11 @@ size_dir=lecture_dir(dico_dir);
 							F=DIR_1;}
 							
 
-							else if (strcmp(mot,nl)==1)
-							{
-							data=action2(Tab_mot,isdata,dico_dir,size_dir,i );
-							
+							else if (strcmp(mot,nl)==0)
+							{data=action2(Tab_mot,isdata,dico_dir,size_dir,i-1 );
 							}	
 
-							else return erreur_caractere1 ( lexeme->mot );
+							else return erreur_caractere2 	 ( lexeme->mot );
 						break;
 						
 						case DEBUT_SYMBOLE : 
@@ -231,11 +229,7 @@ size_dir=lecture_dir(dico_dir);
 int main (void) 
 {
 LISTE_LEXEME L=NULL;
-L=enfiler("SYMBOLE","J",8,L);
-L=enfiler("REGISTRE","$6",12,L);
-L=enfiler("NL","\n",7,L);
-L=enfiler("DIRECTIVE",".byte",17,L);
-L=enfiler("DECIMAL","6",5,L);
+L=enfiler("DIRECTIVE",".data",17,L);
 L=enfiler("NL","\n",7,L);
 visualiser(L);
 collection(L);
