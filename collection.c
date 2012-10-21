@@ -102,7 +102,7 @@ size_dir=lecture_dir(dico_dir);
 							
 							}	
 
-							else return erreur_caractere2 ( lexeme->mot );
+							else return erreur_caractere1 ( lexeme->mot );
 						break;
 						
 						case DEBUT_SYMBOLE : 

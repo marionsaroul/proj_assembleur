@@ -22,7 +22,7 @@ typedef struct
 
 union val {
 	char* option ; // .set instruction à l'assembleur , ici seulement noreorder considéré 
-	char* octet;  // tableau de n valeurs sur 8 bits .byte
+	char** octet;  // tableau de n valeurs sur 8 bits .byte
 	int* mot; // tableau de n mots .word
 	unsigned int taille; //.space
 	};
