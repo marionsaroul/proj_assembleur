@@ -95,18 +95,18 @@ DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir, int size )
 }
 
 
-ETIQUETTE action3(char** Tab_mot,int num_ligne,int x)
+ETIQUETTE action3(char** Tab_mot,int num_ligne,int isdata)
 { 
 
         ETIQUETTE symbole;
         symbole.nom=Tab_mot[2];
         symbole.num_ligne=num_ligne;
-        symbole.segment=x; 
+        symbole.segment=isdata; 
         return symbole;
 }
 
 
-INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_ligne)
+INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_ligne, int size)
 {
         /*Comparaison de la premiere case avec les noms dans le dico des instructions message d'erreur*/
 
@@ -115,19 +115,23 @@ INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_lig
         int x=0;
 
         char* nom = Tab_mot[1];
-        printf("size = %i \n",dico_inst[0].size );
+        printf("size = %i \n",size );
 
-        for (i=0;i<dico_inst[0].size;i++)
+	
+        for (i=0;i<size;i++)
         {
                 char* dico_insti = dico_inst[i].nom;
-                if (strcmp(nom,dico_insti)==0)
+
+
+               
+		 if (strcmp(nom,dico_insti)==0)
                 {
 
                         x=1;
                         break;	
                 }	
         }
-
+ 
         if (x==1)
         {instruction.nom=nom;}
 
@@ -172,9 +176,7 @@ INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_lig
 /*
 
 
-/*main pour tester action2 */
 
-/*
 int main(void)
 {
         DICO_DIR* Dico = calloc(100,sizeof(DICO_DIR));

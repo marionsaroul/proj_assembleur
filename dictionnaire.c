@@ -59,7 +59,7 @@ int lecture_dir(DICO_DIR* tab) {
         if (fichier != NULL)
         {
                 fscanf(fichier, "%d\n", &pnb);
-                printf("la taille du dico est %d\n", pnb);
+              //  printf("la taille du dico est %d\n", pnb);
         }
 
         // premier ligne du fichier texte indique le nombre de ligne pnb ie le nombre d'instruction
@@ -72,12 +72,12 @@ int lecture_dir(DICO_DIR* tab) {
                 {
                         fgets(tmp,511,fichier);
                         tab[i].nom=strdup(strtok(tmp," "));
-                        printf("type %s, i : %i  \n", tab[i].nom,i );
+                        //printf("type %s, i : %i  \n", tab[i].nom,i );
                         tmp2 = strtok(NULL," ");
                         if (strcmp(tmp2,"\n")==1) {
                                 // cas de set noreorder
                                 tab[i].valeur.option = strdup(tmp2);
-                                printf("option : %s\n",tmp2);
+                              //  printf("option : %s\n",tmp2);
                         } 
                 } else {
                         fprintf(stderr,"le fichier n'existe pas.\n");

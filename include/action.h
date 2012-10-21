@@ -42,7 +42,7 @@ DATA_DIRECTIVE action2(char** Tab_mot,int isdata,DICO_DIR* DICO_DIR, int size);
 
 ETIQUETTE action3(char** Tab_mot,int num_ligne,int x);
 
-INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_ligne);
+INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_ligne,int size);
 
 
 

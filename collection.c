@@ -22,16 +22,15 @@ INSTRUCTION instruction ;
 // initialisation des dictionnaires
 
 int size_inst, size_dir;
-DICO_INST* dico_inst = 0;
+DICO_INST* dico_inst = calloc(100,sizeof(DICO_INST));;
 size_inst=lecture_inst(dico_inst);
-DICO_DIR* dico_dir = 0;
+DICO_DIR* dico_dir = calloc(100,sizeof(DICO_DIR));;
 size_dir=lecture_dir(dico_dir);
 
 
 
 	
-	
-	/*while(! est_vide(L))  
+	while(! est_vide(L))  
 	{
 	num_ligne =num_ligne +1 ;
 	i=0;
@@ -45,7 +44,7 @@ size_dir=lecture_dir(dico_dir);
 			lexeme=defiler(&L); // on récupère le premier mot du lexème 
 			mot=lexeme->mot;
 			
-			printf(" etat : %i mot : %s F= %i comparaison de %i \n", lexeme->num_etat, mot,F, strcmp(mot,nl));
+			printf(" etat : %i mot : %s F= %i comparaison de %i \n", lexeme->num_etat, mot, F, strcmp(mot,nl));
 			
 		
 			
@@ -76,7 +75,7 @@ size_dir=lecture_dir(dico_dir);
 						
 							//test si fin de ligne 
 						 	if (strcmp(mot,nl)==0)  
-							{printf("action1");
+							{
 							action1(Tab_mot,isdata);
 							}
 							 
@@ -99,8 +98,8 @@ size_dir=lecture_dir(dico_dir);
 
 							else if (strcmp(mot,nl)==1)
 							{
-							data=action2(Tab_mot,isdata,dico_dir );
-							printf("action2");
+							data=action2(Tab_mot,isdata,dico_dir,size_dir,i );
+							
 							}	
 
 							else return erreur_caractere2 ( lexeme->mot );
@@ -116,7 +115,8 @@ size_dir=lecture_dir(dico_dir);
 							 //test si registre ou hexa ou octal ou decimal (ou étiquette ?) *
 							 else  if (lexeme->num_etat==12 || lexeme->num_etat==4 || lexeme->num_etat==5 || lexeme->num_etat==6 )
 							 {Tab_mot[i]=strdup(mot);
-							 	F=INST_1 ;} 
+							 	F=INST_1 ;
+								} 
 						
 						break;
 						
@@ -129,15 +129,18 @@ size_dir=lecture_dir(dico_dir);
 							 //test fin de ligne
 							 else if (strcmp(mot,nl)==0) 
 							 { symbole=action3(Tab_mot,num_ligne,isdata);
-							 printf("action3"); } 
+							 } 
 							 
 						break;
 							 
 						case INST_1 :
 							//test fin de ligne après 1er opérande
 							 if (strcmp(mot,nl)==0) 
-							 {instruction=action4(Tab_mot,dico_inst,isdata,num_ligne);
-							 printf("action4"); }
+							 {
+							instruction=action4(Tab_mot,dico_inst,isdata,num_ligne,size_inst);
+							//printf("instruction.nom = %s \n", instruction.nom);
+							//visualiser_ope(instruction.liste);
+							 }
 							 
 							 // test virgule
 							 
@@ -212,7 +215,7 @@ size_dir=lecture_dir(dico_dir);
 						 }
 				}
 							 
-	}*/
+	}
 	
 	return -1 ;
 
@@ -228,10 +231,10 @@ size_dir=lecture_dir(dico_dir);
 int main (void) 
 {
 LISTE_LEXEME L=NULL;
-L=enfiler("SYMBOLE","add",8,L);
+L=enfiler("SYMBOLE","J",8,L);
 L=enfiler("REGISTRE","$6",12,L);
 L=enfiler("NL","\n",7,L);
-L=enfiler("DIRECTIVE",".",17,L);
+L=enfiler("DIRECTIVE",".byte",17,L);
 L=enfiler("DECIMAL","6",5,L);
 L=enfiler("NL","\n",7,L);
 visualiser(L);
