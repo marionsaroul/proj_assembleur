@@ -47,8 +47,8 @@ DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir, int size,i
                 dico = strdup(dico_dir[i].nom);
                 printf("mot : %s, dico : %s\n", mot, dico);
                 if (strcmp(mot,dico)==0) //on vérifie que notre directive est bien dans le dico
-                {
-                        x=1;
+                {	
+ x=1;
                         break;
                 }
         }
@@ -94,8 +94,6 @@ DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir, int size,i
 		directive.num_ligne=num_ligne;
 		 exit(erreur_caractere2(mot));
         }
-
-
         return directive;
 
 }

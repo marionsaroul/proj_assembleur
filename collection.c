@@ -7,7 +7,7 @@ LISTE2 collection (LISTE_LEXEME L)
 
 
         LISTE_LEXEME lexeme;
-        LISTE2 Liste_instructions=NULL;
+        LISTE2 l2=NULL;
 
         /*LISTE2 l2;*/
         int num_ligne=0;
@@ -45,7 +45,7 @@ LISTE2 collection (LISTE_LEXEME L)
                         lexeme=defiler(&L); // on récupère le premier mot du lexème 
                         mot=lexeme->mot;
 
-                        printf(" etat : %i mot : %s F= %i comparaison de %i \n", lexeme->num_etat, mot, F, strcmp(mot,nl));
+                        printf(" etat : %i mot : %s, F= %i comparaison de %i \n", lexeme->num_etat, mot,F, strcmp(mot,nl));
 
 
 
@@ -97,20 +97,21 @@ LISTE2 collection (LISTE_LEXEME L)
 
                                 case DIR_1 :
 
-                                        if (strcmp(mot,nl)==1) 
-                                        {Tab_mot[i]=strdup(mot);
-                                                F=DIR_1;}
+                                        if (strcmp(mot,nl)!=0) 
+                                        {
+                                                Tab_mot[i]=strdup(mot);
+                                                printf("            i : %i, mot : %s\n",i, mot);
+                                                F=DIR_1;
+                                        }
 
 
-                                        else if (strcmp(mot,nl)==0)
+                                        else 
                                         {
                                                 printf("i : %i\n",i);
                                                 data=action2(Tab_mot,isdata,dico_dir,size_dir,i-1 ,num_ligne);
-                                        } else {
-                                                erreur_caractere2 ( lexeme->mot );
-                                                break;
+                                                l2 = ajout(&data, l2);
+                                                printf("un ajout\n");
                                         }
-
                                         break;
 
                                 case DEBUT_SYMBOLE : 
@@ -139,6 +140,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                         else if (strcmp(mot,nl)==0) 
                                         { 
                                                 symbole=action3(Tab_mot,num_ligne,isdata);
+                                                l2 = ajout(&symbole, l2);
                                         } 
 
                                         break;
@@ -148,6 +150,7 @@ LISTE2 collection (LISTE_LEXEME L)
                                         if (strcmp(mot,nl)==0) 
                                         {
                                                 instruction=action4(Tab_mot,dico_inst,isdata,num_ligne,size_inst);
+                                                l2 = ajout(&instruction, l2);
                                                 //printf("instruction.nom = %s \n", instruction.nom);
                                                 //visualiser_ope(instruction.liste);
                                         }
@@ -244,8 +247,7 @@ LISTE2 collection (LISTE_LEXEME L)
 
         }
 
-        return Liste_instructions;
-
+        return l2;
 }
 
 
@@ -257,8 +259,7 @@ LISTE2 collection (LISTE_LEXEME L)
 
 int main (void) 
 {
-        LISTE_LEXEME L=NULL;
-
+        LISTE_LEXEME L = NULL;
 
         //test action 4
         L=enfiler("SYMBOLE","J",7,L);
@@ -291,8 +292,10 @@ int main (void)
         collection(L);   
 
 
-        LISTE2 Liste_instructions = NULL;
-        Liste_instructions = collection(L);
+        LISTE2 l2 = NULL;
+        l2 = collection(L);
         printf("\nOn visualise la liste créée \n");
-        visualiser_listegen(Liste_instructions,aff1);
+        visualiser_listegen(l2,aff1);
+        visualiser_listegen(l2,aff2);
+        visualiser_listegen(l2,aff3);
 }	
