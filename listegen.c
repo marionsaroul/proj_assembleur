@@ -5,6 +5,7 @@ LISTE2 ajout(void *p_e, LISTE2 l)
 {
         //Allocation d â 63 ™ un maillon dont la taille est celle de e + 1 pointeur
         LISTE2 p = calloc(1, sizeof(*p));
+        printf("dans la fonction ajout\n");
         //On copie la valeur interessante dans le maillon
         p->pval = p_e;
         //On chaine avec la suite de la liste
@@ -16,8 +17,10 @@ LISTE2 ajout(void *p_e, LISTE2 l)
 void visualiser_listegen(LISTE2 l, void (*aff) (void *)) 
 {
         LISTE2 p;
-        for (p = l; p != NULL; p = p->suiv)
+        for (p = l; p != NULL; p = p->suiv) {
+                printf("un tour\n");
                 aff(p->pval);
+        }
         puts("");
 }
 

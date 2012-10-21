@@ -45,7 +45,7 @@ LISTE2 collection (LISTE_LEXEME L)
                         lexeme=defiler(&L); // on récupère le premier mot du lexème 
                         mot=lexeme->mot;
 
-                        printf(" etat : %i mot : %s, F= %i comparaison de %i \n", lexeme->num_etat, mot,F, strcmp(mot,nl));
+                        //printf(" etat : %i mot : %s, F= %i comparaison de %i \n", lexeme->num_etat, mot,F, strcmp(mot,nl));
 
 
 
@@ -246,7 +246,6 @@ LISTE2 collection (LISTE_LEXEME L)
                 }
 
         }
-
         return l2;
 }
 
@@ -274,26 +273,23 @@ int main (void)
         L=enfiler("DECIMAL","10",4,L);
         L=enfiler("NL","\n",6,L);
         //test action 1
-        L=enfiler("DIRECTIVE",".data",16,L);
-        L=enfiler("NL","\n",6,L);
-        //test action 3
-        L=enfiler("SYMBOLE","etiqu1",7,L);
-        L=enfiler("DEUX_PTS",":",8,L);
-        L=enfiler("NL","\n",6,L);
-        //test erreur action4
-        L=enfiler("SYMBOLE","J1",6,L);
-        L=enfiler("REGISTRE","$6",11,L);
-        L=enfiler("NL","\n",6,L);
-        L=enfiler("SYMBOLE","J",7,L);
-        L=enfiler("REGISTRE","$6",12,L);
-        L=enfiler("REGISTRE","7",12,L);
-        L=enfiler("NL","\n",7,L);
+        //        L=enfiler("DIRECTIVE",".data",16,L);
+        //        L=enfiler("NL","\n",6,L);
+        //        //test action 3
+        //        L=enfiler("SYMBOLE","etiqu1",7,L);
+        //        L=enfiler("DEUX_PTS",":",8,L);
+        //        L=enfiler("NL","\n",6,L);
+        //        //test erreur action4
+        //        L=enfiler("SYMBOLE","J1",6,L);
+        //        L=enfiler("REGISTRE","$6",11,L);
+        //        L=enfiler("NL","\n",6,L);
+        //        L=enfiler("SYMBOLE","J",7,L);
+        //        L=enfiler("REGISTRE","$6",12,L);
+        //        L=enfiler("REGISTRE","7",12,L);
+        //        L=enfiler("NL","\n",7,L);
         visualiser(L);
-        collection(L);   
 
-
-        LISTE2 l2 = NULL;
-        l2 = collection(L);
+        LISTE2 l2 = collection(L);
         printf("\nOn visualise la liste créée \n");
         visualiser_listegen(l2,aff1);
         visualiser_listegen(l2,aff2);
