@@ -20,10 +20,13 @@ ETIQUETTE symbole;
 INSTRUCTION instruction ;
 
 // initialisation des dictionnaires
-DICO_INST* dico_inst;
-lecture_inst(dico_inst);
-DICO_DIR* dico_dir; 
-lecture_dir(dico_dir);
+
+int size_inst, size_dir;
+DICO_INST* dico_inst = 0;
+size_inst=lecture_inst(dico_inst);
+DICO_DIR* dico_dir = 0;
+size_dir=lecture_dir(dico_dir);
+
 
 
 	
@@ -93,11 +96,13 @@ lecture_dir(dico_dir);
 							{Tab_mot[i]=strdup(mot);
 							F=DIR_1;}
 							
+
 							else if (strcmp(mot,nl)==1)
 							{
 							data=action2(Tab_mot,isdata,dico_dir );
 							printf("action2");
 							}	
+
 							else return erreur_caractere2 ( lexeme->mot );
 						break;
 						

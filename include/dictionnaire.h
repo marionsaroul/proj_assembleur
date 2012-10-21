@@ -22,7 +22,7 @@ typedef struct
 
 union val {
 	char* option ; // .set instruction à l'assembleur , ici seulement noreorder considéré 
-	char** octet;  // tableau de n valeurs sur 8 bits .byte
+	char* octet;  // tableau de n valeurs sur 8 bits .byte
 	int* mot; // tableau de n mots .word
 	unsigned int taille; //.space
 	};
@@ -34,7 +34,6 @@ typedef struct
 	char *nom; 
 	union val valeur;
 	int num_ligne; 
-	int size;	
 }DICO_DIR;
 
 
@@ -47,8 +46,8 @@ typedef struct
 
 
 
-void lecture_inst(DICO_INST* tab);
-void lecture_dir(DICO_DIR* tab);
+int lecture_inst(DICO_INST* tab);
+int lecture_dir(DICO_DIR* tab);
 char * lecture_symb (void);
 
 

@@ -38,7 +38,7 @@ int erreur_caractere2 ( char *ligne );
 
 int action1(char** Tab_mot,int x);
 
-DATA_DIRECTIVE action2(char** Tab_mot,int isdata,DICO_DIR* DICO_DIR );
+DATA_DIRECTIVE action2(char** Tab_mot,int isdata,DICO_DIR* DICO_DIR, int size);
 
 ETIQUETTE action3(char** Tab_mot,int num_ligne,int x);
 
