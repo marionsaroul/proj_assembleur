@@ -33,17 +33,16 @@ int action1(char** Tab_mot,int isdata)
 }
 
 
-DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir )
+DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir, int size )
 {
         char * mot=Tab_mot[1];
         char * dico;
         DATA_DIRECTIVE directive ;
         int i,x;
         int k=0;
-        int j=0;
 
 
-        for(i=0;i<dico_dir[0].size;i++)
+        for(i=0;i<size;i++)
         {
                 dico = strdup(dico_dir[i].nom);
                 printf("mot : %s, dico : %s\n", mot, dico);
@@ -55,6 +54,7 @@ DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir )
         }
         if (x==1)
         {
+                // TODO : rajouter cas de num_ligne
                 directive.nom=Tab_mot[1];
                 // cas de .set
                 if(dico_dir[i].valeur.option!= NULL)
@@ -62,11 +62,14 @@ DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir )
                         directive.valeur.option=Tab_mot[3];
                 } else if(strcmp(directive.nom,".byte")==0)
                 //cas de .byte
-                {	int a=2;
+                {	
+                        int a=2;
+                        int j=0;
+                        directive.valeur.octet=calloc(10000,sizeof(Tab_mot));
                         while (Tab_mot[a]!=NULL)
                         {
-                                directive.valeur.octet[j]=strdup(Tab_mot[a]);
-                                j=j+1;
+                                directive.valeur.octet[j]=(char*) strdup(Tab_mot[a]);
+                                j++;
                                 a++;
                         }
                 }
@@ -75,6 +78,7 @@ DATA_DIRECTIVE action2 (char** Tab_mot,int isdata,DICO_DIR* dico_dir )
                 {int b=2;
                         while (Tab_mot[b]!=NULL)
                         {
+                                // on transforme la chaîne en entier
                                 directive.valeur.mot[k]=atoi(Tab_mot[b]);	
                                 k=k+1;
                                 b++;
@@ -134,6 +138,8 @@ INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_lig
 
         if ( dico_inst[i].nb_op == 1)
         {
+                // initialisation d'instruction.liste
+                instruction.liste = 0;
                 instruction.liste = enfiler_ope(Tab_mot[2],instruction.liste);
                 instruction.erreur = 0;
                 instruction.num_ligne = num_ligne;
@@ -165,28 +171,29 @@ INSTRUCTION action4(char** Tab_mot,DICO_INST* dico_inst, int isdata, int num_lig
 
 
 /*main pour tester action2 */
+
 int main(void)
 {
         DICO_DIR* Dico = calloc(100,sizeof(DICO_DIR));
-        lecture_dir(Dico);
-        printf("dico 2 : %s\n", Dico[2].nom);
-        int i=1;
-        char* Tab_mot[5];
+        int size = lecture_dir(Dico);
+        printf("dico size : %i\n", size);
+        char* Tab_mot[2];
         Tab_mot[1]=".byte";
         Tab_mot[2]="1";
+        //Tab_mot[3]=NULL;
 
         int isdata=1;
         int num_ligne=3;
         DATA_DIRECTIVE directive;
-        directive=action2(Tab_mot, isdata,Dico );
+        directive=action2(Tab_mot,isdata,Dico,size );
 }
+
 /* main pour tester ACTION4 */
 /*
    int main(void)
    {
    DICO_INST* Dico = calloc(100,sizeof(DICO_INST));
    lecture_inst(Dico);
-   int i=1;
    char* Tab_mot[5];
    Tab_mot[1]="J";
    Tab_mot[2]="$1";
@@ -199,7 +206,7 @@ int main(void)
    inst=action4(Tab_mot,Dico,isdata,num_ligne);
 
 
-   printf("inst->nom = %s ", inst.nom);
+   printf("inst->nom = %s \n", inst.nom);
    visualiser_ope(inst.liste); 
    return 0;
    }

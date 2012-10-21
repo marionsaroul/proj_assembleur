@@ -25,10 +25,11 @@ ETIQUETTE symbole;
 INSTRUCTION instruction ;
 
 // initialisation des dictionnaires
+int size_inst, size_dir;
 DICO_INST* dico_inst = 0;
-lecture_inst(dico_inst);
+size_inst=lecture_inst(dico_inst);
 DICO_DIR* dico_dir = 0;
-lecture_dir(dico_dir);
+size_dir=lecture_dir(dico_dir);
 
 
 	
@@ -106,7 +107,7 @@ lecture_dir(dico_dir);
 						case DIR_2 :
 						
 							 if (strcmp(mot,nl)==0) 
-							{data=action2(Tab_mot,isdata,dico_dir );
+							{data=action2(Tab_mot,isdata,dico_dir,size_dir );
 							/*L2=ajout(d,L);*/
 							 printf("action2");
 							 }	
