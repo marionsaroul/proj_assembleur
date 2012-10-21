@@ -97,7 +97,9 @@ size_dir=lecture_dir(dico_dir);
 							
 
 							else if (strcmp(mot,nl)==0)
-							{data=action2(Tab_mot,isdata,dico_dir,size_dir,i-1 ,num_ligne);
+
+							{printf("i= %i\n",i);
+							data=action2(Tab_mot,isdata,dico_dir,size_dir,i-1 ,num_ligne);
 							}	
 
 							else return erreur_caractere2 	 ( lexeme->mot );
@@ -114,8 +116,8 @@ size_dir=lecture_dir(dico_dir);
 							 else if (lexeme->num_etat==7 || lexeme->num_etat==11 || lexeme->num_etat==3 || lexeme->num_etat==4 || lexeme->num_etat==5 )
 							
 							 {Tab_mot[i]=strdup(mot);
-							 	F=INST_1 ;
-								} 
+							 F=INST_1 ;
+							} 
 						
 						break;
 						
@@ -234,12 +236,12 @@ int main (void)
 {
 LISTE_LEXEME L=NULL;
 
-/*
-test action 4
+
+
 L=enfiler("SYMBOLE","J",7,L);
 L=enfiler("REGISTRE","$6",11,L);
 L=enfiler("NL","\n",6,L);
-test action 2
+
 L=enfiler("DIRECTIVE",".byte",16,L);
 L=enfiler("DECIMAL","6",4,L);
 L=enfiler("DECIMAL","7",4,L);
@@ -247,21 +249,21 @@ L=enfiler("DECIMAL","8",4,L);
 L=enfiler("DECIMAL","9",4,L);
 L=enfiler("DECIMAL","10",4,L);
 L=enfiler("NL","\n",6,L);
-test action 1
+
 L=enfiler("DIRECTIVE",".data",16,L);
 L=enfiler("NL","\n",6,L);
-test action 3
+
 L=enfiler("SYMBOLE","etiqu1",7,L);
 L=enfiler("DEUX_PTS",":",8,L);
 L=enfiler("NL","\n",6,L);
-test erreur action4
+
 L=enfiler("SYMBOLE","J1",6,L);
 L=enfiler("REGISTRE","$6",11,L);
 L=enfiler("NL","\n",6,L);
 L=enfiler("SYMBOLE","J",7,L);
 L=enfiler("REGISTRE","$6",12,L);
 L=enfiler("REGISTRE","7",12,L);
-L=enfiler("NL","\n",7,L);*/
+L=enfiler("NL","\n",7,L);
 visualiser(L);
 collection(L);
 }	

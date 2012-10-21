@@ -14,8 +14,6 @@ int lecture_inst(DICO_INST* tab) {
         {
                 fscanf(fichier, "%d", &pnb);
                 //printf("La taille du dico est: %d", pnb);
-
-
         }
 
         // premier ligne du fichier texte indique le nombre de ligne pnb ie le nombre d'instruction
